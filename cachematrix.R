@@ -1,36 +1,36 @@
 ## Programming Assignment 2: Lexical Scoping 
 
-## makeCacheMatrix: This function creates a special "matrix" object that can cache its inverse.
+## makeCacheMatrix: This function creates a special "matrix" object that can cache its inverse. *(From the instructions)
    
 
 
-makeVector <- function(x = numeric()) {
-        m <- NULL
+makeCacheMatrix <- function(x = matrix()) {
+        inverse <- NULL
         set <- function(y) {
                 x <<- y
-                m <<- NULL
+                inverse <<- NULL
         }
         get <- function() x
-        setmean <- function(mean) m <<- mean
-        getmean <- function() m
+        setinverse <- function(inverse) inverse <<- inverse
+        getinverse <- function() inverse
         list(set = set, get = get,
-             setmean = setmean,
-             getmean = getmean)
+             setinverse = setinverse,
+             getinverse = getinverse)
 }
 
 
 ## cachesolve.  cacheSolve: This function computes the inverse of the special "matrix" returned by makeCacheMatrix above. 
 ## If the inverse has already been calculated (and the matrix has not changed), then cacheSolve should retrieve the inverse 
-## from the cache.
+## from the cache. *(From the instructions)
 
-cachemean <- function(x, ...) {
-        m <- x$getmean()
-        if(!is.null(m)) {
+cachesolve <- function(x, ...) {
+        inverse <- x$getinverse()
+        if(!is.null(inverse)) {
                 message("getting cached data")
-                return(m)
+                return(inverse)
         }
         data <- x$get()
-        m <- mean(data, ...)
-        x$setmean(m)
-        m
+        inverse <- solve(data, ...)
+        x$setinverse(inverse)
+        inverse
 }
