@@ -1,50 +1,30 @@
-## Functions that cache the inverse of a matrix
-##
-## Usage example:
-##
-## > source('cachematrix.R')
-## > m <- makeCacheMatrix(matrix(c(2, 0, 0, 2), c(2, 2)))
-## > cacheSolve(m)
-## [,1] [,2]
-## [1,]  0.5  0.0
-## [2,]  0.0  0.5
+## Programming Assignment 2: Lexical Scoping 
 
-## Create a special "matrix", which is a list containing
-## a function to
-##   - set the value of the matrix
-##   - get the value of the matrix
-##   - set the value of the inverse matrix
-##   - get the value of the inverse matrix
-
-makeCacheMatrix <- function(x = matrix()) {
-    i <- NULL
-    set <- function(y) {
-        x <<- y
-        i <<- NULL
-    }
-    get <- function() x
-    setinverse <- function(inv) i <<- inv
-    getinverse <- function() i
-    list(
-        set = set,
-        get = get,
-        setinverse = setinverse,
-        getinverse = getinverse
-    )
+makeVector <- function(x = numeric()) {
+        m <- NULL
+        set <- function(y) {
+                x <<- y
+                m <<- NULL
+        }
+        get <- function() x
+        setmean <- function(mean) m <<- mean
+        getmean <- function() m
+        list(set = set, get = get,
+             setmean = setmean,
+             getmean = getmean)
 }
 
 
-## Calculate the inverse of the special "matrix" created with the above
-## function, reusing cached result if it is available
+## cachesolve
 
-cacheSolve <- function(x, ...) {
-    i <- x$getinverse()
-    if(!is.null(i)) {
-        message("getting cached data")
-        return(i)
-    }
-    m <- x$get()
-    i <- solve(m, ...)
-    x$setinverse(i)
-    i
+cachemean <- function(x, ...) {
+        m <- x$getmean()
+        if(!is.null(m)) {
+                message("getting cached data")
+                return(m)
+        }
+        data <- x$get()
+        m <- mean(data, ...)
+        x$setmean(m)
+        m
 }
